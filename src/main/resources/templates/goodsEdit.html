@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head th:include="head.html::head">
+</head>
+<body>
+
+<div id="top" th:include="head.html::top"></div>
+<div id="middle">
+    <div id="left" th:include="left.html::left"></div>
+    <div id="right">
+        <form action="/admin/editGoods" method="post">
+        <input type="hidden" name="gdid" th:value="${goods.getGdid()}">
+    <table>
+        <tr><td>名称</td><td><input type="text" th:value="${goods.getGdname}" name="gdname"></td></tr>
+        <tr><td>编号</td><td><input type="text" th:value="${goods.getGdcode()}" name="gdcode"></td></tr>
+        <tr><td>类别</td>
+            <td>
+                <select name="tid">
+                <option th:each="goodsType:${goodstypelist}"
+                             th:value="${goodsType.getTid()}"
+                             th:text="${goodsType.getTname()}"
+                        th:selected="${goods.getTid()} eq ${goodsType.getTid()}"
+                             >
+                    </option>
+                </select>
+            </td>
+
+        </tr>
+        <tr><td>单价</td><td><input type="text" th:value="${goods.getGdprice()}" name="gdprice"></td></tr>
+        <tr><td>库存</td><td><input type="text" th:value="${goods.getGdquantity()}" name="gdquantity"></td></tr>
+        <tr><td>城市</td><td><input type="text" th:value="${goods.getGdcity()}" name="gdcity"></td></tr>
+        <tr><td>商品描述</td><td><textarea th:text="${goods.getGdinfo()}" name="gdinfo"></textarea></td></tr>
+        <tr><td>是否热销</td>
+            <td>
+                <input type="radio" name="gdhot" th:attr="checked = ${goods.getGdhot() == 1}" value="1">是
+                <input type="radio" name="gdhot" th:attr="checked = ${goods.getGdhot() != 1}" value="0">否
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" value="返回" onclick="javascript:history.back()">
+                <input type="reset" value="重置">
+                <input type="submit" value="提交">
+            </td>
+        </tr>
+
+
+    </table>
+</form>
+    </div>
+</div>
+<div id="bottom" th:include="bottom.html::bottom"></div>
+</body>
+</html>

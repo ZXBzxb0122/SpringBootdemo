@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head.html::head">
+</head>
+<body>
+
+<div id="top" th:include="head.html::top"></div>
+<div id="middle">
+    <div id="left" th:include="left.html::left"></div>
+    <div id="right">
+        <hr>
+        <form action="/admin/addGoods" method="post">
+
+            <table>
+                <tr><td>名称</td><td><input type="text" name="gdname"></td></tr>
+                <tr><td>编号</td><td><input type="text"  name="gdcode"></td></tr>
+                <tr><td>类别</td>
+                    <td>
+                        <select name="tid">
+                            <option th:each="goodsType:${goodstypesList}"
+                                    th:value="${goodsType.getTid()}"
+                                    th:text="${goodsType.getTname()}">
+                            </option>
+                        </select>
+                    </td>
+
+                </tr>
+                <tr><td>单价</td><td><input type="text"  name="gdprice"></td></tr>
+                <tr><td>库存</td><td><input type="text"  name="gdquantity"></td></tr>
+                <tr><td>城市</td><td><input type="text" name="gdcity"></td></tr>
+                <tr><td>商品描述</td><td><textarea cols="40" rows="4"  name="gdinfo"></textarea></td></tr>
+                <tr><td>是否热销</td>
+                    <td>
+                        <input type="radio" name="gdhot" checked value="1">是
+                        <input type="radio" name="gdhot"  value="0">否
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="reset" value="重置">
+                        <input type="submit" value="提交">
+                    </td>
+                </tr>
+
+
+            </table>
+        </form>
+    </div>
+</div>
+
+<div id="bottom" th:include="bottom.html::bottom"></div>
+</body>
+</html>

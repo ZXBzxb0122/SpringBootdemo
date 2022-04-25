@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head th:include="head.html::head">
+</head>
+<body>
+
+    <div id="top" th:include="head.html::top"></div>
+    <div id="middle">
+        <div id="left" th:include="left.html::left"></div>
+        <div id="right">
+            <form action="/admin/gotoAddGoods">
+                <input type="submit" value="添加商品">
+            </form>
+            <div id="msg" th:text="${msg}"></div>
+            <table>
+
+                <tr>
+                    <th>商品ID</th>
+                    <th>商品名称</th>
+                    <th>商品类别</th>
+                    <th>商品价格</th>
+                    <th>商品城市</th>
+                    <th>热销</th>
+                    <th>操作</th>
+
+                </tr>
+                <tr th:each="goods:${goodsList}">
+                    <td th:text="${goods.getGdid()}"></td>
+                    <td th:text="${goods.getGdname()}"></td>
+                    <td th:text="${goods.getGoodstype().getTname()}"></td>
+
+                    <td th:text="${goods.getGdprice()}"></td>
+                    <td th:text="${goods.getGdcity()}"></td>
+                    <td >
+                        <span th:if="${goods.getGdhot()} eq 1">是</span>
+                        <span th:unless="${goods.getGdhot()} eq 1">否</span>
+                    </td>
+                    <td>
+                        <a th:href="@{/admin/delGoods/} + ${goods.getGdid()}">删除</a>
+                        <a th:href="@{/admin/goods/} + ${goods.getGdid()}">编辑</a>
+                    </td>
+
+                </tr>
+
+
+            </table>
+
+
+        </div>
+    </div>
+    <div id="bottom" th:include="bottom.html::bottom"></div>
+
+
+</body>
+</html>
