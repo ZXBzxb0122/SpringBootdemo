@@ -68,12 +68,16 @@ input,select,textarea{
     color: red;
 }
 
-#left ,#right {
+#left ,#center {
     float: left;
 }
-#right{
+#center{
     padding: 10px 40px;
     margin: 0 auto;
+    text-align: center;
+}
+#right{
+
 }
 
 
