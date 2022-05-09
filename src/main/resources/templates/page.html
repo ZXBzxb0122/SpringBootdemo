@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="mypage">
+    <div class="">
+        当前第 <span th:text="${goodsListPage.pageNum}"></span> 页，
+        共 <span th:text="${goodsListPage.pages}"></span> 页，
+        <span th:text="${goodsListPage.total}"></span> 条记录
+    </div>
+    <ul class="pagelist" style="list-style: none">
+
+        <li th:if="${goodsListPage.hasPreviousPage}"}><!--hasPreviousPage默认值为false， 如果有上一页，则不显示首页-->
+            <a th:href="@{/admin/goods?pageNum=}+${1}">首页</a>&nbsp;
+        </li>
+        <li th:if="${goodsListPage.hasPreviousPage}"><!--hasPreviousPage默认值为false， 如果有上一页，则不显示-->
+            <a th:href="@{/admin/goods?pageNum=}+${goodsListPage.prePage}">上一页</a>&nbsp;
+        </li>
+        <li th:each="nav:${goodsListPage.navigatepageNums}"><!--navigatepageNums是一个数组：遍历所有导航页号。 -->
+            <a th:href="@{/admin/goods?pageNum=}+${nav}" th:text="${nav}" th:if="${nav != goodsListPage.pageNum}"></a><!--如果不是当前页则可以跳转其他页面。遍历展示-->
+            <a th:class="${'active'}" th:if="${nav == goodsListPage.pageNum}" th:text="${nav}"></a><!--如果是当前页则有样式。遍历 展示-->
+            &nbsp;</li>
+        <li th:if="${goodsListPage.hasNextPage}"><!--hasNextPage默认值为false， 如果没有下一页，则不显示-->
+            <a th:href="@{/admin/goods?pageNum=}+${goodsListPage.nextPage}">下一页</a>&nbsp;
+        </li>
+        <li th:if="${goodsListPage.pageNum < goodsListPage.pages}"><!--如果当前页小于总页数则不显示尾页 -->
+            <a th:href="@{/admin/goods?pageNum=}+${goodsListPage.pages}">尾页</a>
+        </li>
+    </ul>
+</div>
+
+
+
+</body>
+</html>

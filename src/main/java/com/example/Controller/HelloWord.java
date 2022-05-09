@@ -5,7 +5,10 @@ import com.example.entity.Adminuser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpSession;
@@ -32,7 +35,8 @@ public class HelloWord {
 //        return "two";
 //    }
     public String doLogin(Adminuser adminuser,Model model){
-        System.out.println(adminuser.getAduname()+"---"+adminuser.getAdupwd());
+        System.out.println(DigestUtils.md5DigestAsHex(adminuser.getAdupwd().getBytes()));
+        adminuser.setAdupwd(DigestUtils.md5DigestAsHex(adminuser.getAdupwd().getBytes()));
 
         // 用户名 密码进行验证
         Adminuser user =  adminuserService.geAdminUser(adminuser);

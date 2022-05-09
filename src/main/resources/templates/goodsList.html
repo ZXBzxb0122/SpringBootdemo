@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <!--suppress ThymeleafVariablesResolveInspection -->
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
-<head th:include="head.html::head">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/local/css/login.css}" rel="stylesheet">
+    <link  th:href="@{/local/css/page.css}"  rel="stylesheet">
 </head>
 <body>
 
@@ -23,7 +28,7 @@
                     <th>操作</th>
 
                 </tr>
-                <tr th:each="goods:${goodsList}">
+                <tr th:each="goods:${goodsListPage.list}">
                     <td th:text="${goods.getGdid()}"></td>
                     <td th:text="${goods.getGdname()}"></td>
                     <td th:text="${goods.getGoodstype().getTname()}"></td>
@@ -43,7 +48,7 @@
 
 
             </table>
-
+            <div th:include="page.html::mypage"></div>
 
         </div>
         <div id="right"></div>

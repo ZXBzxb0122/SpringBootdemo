@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UsersDao">
+
+    <resultMap type="com.example.entity.Users" id="UsersMap">
+        <result property="uid" column="uID" jdbcType="INTEGER"/>
+        <result property="uname" column="uName" jdbcType="VARCHAR"/>
+        <result property="upwd" column="uPwd" jdbcType="VARCHAR"/>
+        <result property="usex" column="uSex" jdbcType="VARCHAR"/>
+        <result property="ubirth" column="uBirth" jdbcType="VARCHAR"/>
+        <result property="ucity" column="uCity" jdbcType="VARCHAR"/>
+        <result property="uphone" column="uPhone" jdbcType="VARCHAR"/>
+        <result property="uemail" column="uEmail" jdbcType="VARCHAR"/>
+        <result property="uqq" column="uQQ" jdbcType="VARCHAR"/>
+        <result property="ucredit" column="uCredit" jdbcType="INTEGER"/>
+        <result property="uregtime" column="uRegTime" jdbcType="TIMESTAMP"/>
+        <result property="uimage" column="uImage" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UsersMap">
+        select uID,
+               uName,
+               uPwd,
+               uSex,
+               uBirth,
+               uCity,
+               uPhone,
+               uEmail,
+               uQQ,
+               uCredit,
+               uRegTime,
+               uImage
+        from shop11.users
+        where uID = #{uid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UsersMap">
+        select uID,
+               uName,
+               uPwd,
+               uSex,
+               uBirth,
+               uCity,
+               uPhone,
+               uEmail,
+               uQQ,
+               uCredit,
+               uRegTime,
+               uImage
+        from shop11.users
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UsersMap">
+        select
+        uID, uName, uPwd, uSex, uBirth, uCity, uPhone, uEmail, uQQ, uCredit, uRegTime, uImage
+        from shop11.users
+        <where>
+            <if test="uid != null">
+                and uID = #{uid}
+            </if>
+            <if test="uname != null and uname != ''">
+                and uName = #{uname}
+            </if>
+            <if test="upwd != null and upwd != ''">
+                and uPwd = #{upwd}
+            </if>
+            <if test="usex != null and usex != ''">
+                and uSex = #{usex}
+            </if>
+            <if test="ubirth != null">
+                and uBirth = #{ubirth}
+            </if>
+            <if test="ucity != null and ucity != ''">
+                and uCity = #{ucity}
+            </if>
+            <if test="uphone != null and uphone != ''">
+                and uPhone = #{uphone}
+            </if>
+            <if test="uemail != null and uemail != ''">
+                and uEmail = #{uemail}
+            </if>
+            <if test="uqq != null and uqq != ''">
+                and uQQ = #{uqq}
+            </if>
+            <if test="ucredit != null">
+                and uCredit = #{ucredit}
+            </if>
+            <if test="uregtime != null">
+                and uRegTime = #{uregtime}
+            </if>
+            <if test="uimage != null and uimage != ''">
+                and uImage = #{uimage}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="uid" useGeneratedKeys="true">
+        insert into shop11.users(uName, uPwd, uSex, uBirth, uCity, uPhone, uEmail, uQQ, uCredit, uRegTime, uImage)
+        values (#{uname}, #{upwd}, #{usex}, #{ubirth}, #{ucity}, #{uphone}, #{uemail}, #{uqq}, #{ucredit}, #{uregtime},
+                #{uimage})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="uid" useGeneratedKeys="true">
+        insert into shop11.users(uName, uPwd, uSex, uBirth, uCity, uPhone, uEmail, uQQ, uCredit, uRegTime, uImage)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.uname}, #{entity.upwd}, #{entity.usex}, #{entity.ubirth}, #{entity.ucity}, #{entity.uphone},
+            #{entity.uemail}, #{entity.uqq}, #{entity.ucredit}, #{entity.uregtime}, #{entity.uimage})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="uid" useGeneratedKeys="true">
+        insert into shop11.users(uName, uPwd, uSex, uBirth, uCity, uPhone, uEmail, uQQ, uCredit, uRegTime, uImage)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.uname}, #{entity.upwd}, #{entity.usex}, #{entity.ubirth}, #{entity.ucity}, #{entity.uphone},
+            #{entity.uemail}, #{entity.uqq}, #{entity.ucredit}, #{entity.uregtime}, #{entity.uimage})
+        </foreach>
+        on duplicate key update
+        uName = values(uName) , uPwd = values(uPwd) , uSex = values(uSex) , uBirth = values(uBirth) , uCity =
+        values(uCity) , uPhone = values(uPhone) , uEmail = values(uEmail) , uQQ = values(uQQ) , uCredit =
+        values(uCredit) , uRegTime = values(uRegTime) , uImage = values(uImage)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update shop11.users
+        <set>
+            <if test="uname != null and uname != ''">
+                uName = #{uname},
+            </if>
+            <if test="upwd != null and upwd != ''">
+                uPwd = #{upwd},
+            </if>
+            <if test="usex != null and usex != ''">
+                uSex = #{usex},
+            </if>
+            <if test="ubirth != null">
+                uBirth = #{ubirth},
+            </if>
+            <if test="ucity != null and ucity != ''">
+                uCity = #{ucity},
+            </if>
+            <if test="uphone != null and uphone != ''">
+                uPhone = #{uphone},
+            </if>
+            <if test="uemail != null and uemail != ''">
+                uEmail = #{uemail},
+            </if>
+            <if test="uqq != null and uqq != ''">
+                uQQ = #{uqq},
+            </if>
+            <if test="ucredit != null">
+                uCredit = #{ucredit},
+            </if>
+            <if test="uregtime != null">
+                uRegTime = #{uregtime},
+            </if>
+            <if test="uimage != null and uimage != ''">
+                uImage = #{uimage},
+            </if>
+        </set>
+        where uID = #{uid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from shop11.users
+        where uID = #{uid}
+    </delete>
+
+</mapper>
+

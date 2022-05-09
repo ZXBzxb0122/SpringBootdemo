@@ -3,18 +3,19 @@ package com.example.Controller;
 
 import com.example.Service.impl.GoodsServiceImpl;
 import com.example.Service.impl.GoodstypeServiceImpl;
+import com.github.pagehelper.PageInfo;
 import com.example.entity.Goods;
 import com.example.entity.Goodstype;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 
+@Api("商品信息控制类")
 @Controller
 @RequestMapping("/admin")
 public class GoodsCtrl {
@@ -23,14 +24,15 @@ public class GoodsCtrl {
 
     @Resource
     GoodstypeServiceImpl goodstypeService;
-
-    @RequestMapping(value = "/goods")
-    public String findAllGoods(Model model){
-        ArrayList<Goods> goodsList =  goodsService.queryAll();
-        model.addAttribute("goodsList",goodsList);
+    @RequestMapping(value = "/goods",method = {RequestMethod.POST,RequestMethod.GET})
+    public String findAllGoods(Model model,
+                               @RequestParam(value = "pageNum",required = false, defaultValue = "1") Integer pageNum
+            , @RequestParam(value = "pageSize",required = false, defaultValue = "4") Integer pageSize){
+        PageInfo<Goods> goodsList =  goodsService.queryAll(pageNum,pageSize);
+        model.addAttribute("goodsListPage",goodsList);
         return "goodsList";
     }
-
+    @ApiOperation("根据ID删除商品")
     @GetMapping("/delGoods/{id}")
     public String delGoods(@PathVariable("id") int id,Model model){
         int num = goodsService.deleteByID(id);
@@ -68,5 +70,9 @@ public class GoodsCtrl {
     public String addGoods(Goods goods){
         int num = goodsService.insert(goods);
         return "forward:/admin/goods";
+    }
+    @GetMapping("/test")
+    public Goods test(){
+        return  new Goods();
     }
 }

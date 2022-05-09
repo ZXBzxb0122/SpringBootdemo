@@ -1,7 +1,10 @@
 package com.example.entity;
 
-import java.util.Date;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Goods)实体类
@@ -9,14 +12,17 @@ import java.io.Serializable;
  * @author makejava
  * @since 2022-03-28 16:09:15
  */
+@ApiModel("商品实体类")
 public class Goods implements Serializable {
     private static final long serialVersionUID = -82400272029970484L;
-    
+
+    @ApiModelProperty("商品ID")
     private Integer gdid;
-    
+    @ApiModelProperty("商品类别ID")
     private Integer tid;
-    
+
     private String gdcode;
+    @ApiModelProperty("商品名")
     
     private String gdname;
     

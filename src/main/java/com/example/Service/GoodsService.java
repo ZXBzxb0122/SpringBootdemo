@@ -1,11 +1,11 @@
 package com.example.Service;
 
 import com.example.entity.Goods;
+import com.github.pagehelper.PageInfo;
 
-import java.util.ArrayList;
 
 public interface GoodsService {
-    ArrayList<Goods> queryAll();
+    PageInfo<Goods> queryAll(Integer pageNum, Integer pageSize);
 
     int deleteByID(Integer id);
 

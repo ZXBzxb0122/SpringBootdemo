@@ -3,10 +3,13 @@ package com.example.Service.impl;
 import com.example.Service.GoodsService;
 import com.example.dao.GoodsDao;
 import com.example.entity.Goods;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
@@ -14,9 +17,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Resource
     GoodsDao goodsDao;
 
-    @Override  //父类重写
-    public ArrayList<Goods> queryAll() {
-        return goodsDao.queryAll();
+    @Override
+    public PageInfo<Goods> queryAll(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Goods> list = goodsDao.queryAll();
+        PageInfo<Goods> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 
     @Override
