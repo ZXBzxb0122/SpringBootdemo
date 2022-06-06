@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.OrderdetailDao">
+
+    <resultMap type="com.example.entity.Orderdetail" id="OrderdetailMap">
+        <result property="odid" column="odID" jdbcType="INTEGER"/>
+        <result property="oid" column="oID" jdbcType="INTEGER"/>
+        <result property="gdid" column="gdID" jdbcType="INTEGER"/>
+        <result property="odnum" column="odNum" jdbcType="INTEGER"/>
+        <result property="devalution" column="dEvalution" jdbcType="VARCHAR"/>
+        <result property="odtime" column="odTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderdetailMap">
+        select
+          odID, oID, gdID, odNum, dEvalution, odTime
+        from orderdetail
+        where odID = #{odid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrderdetailMap">
+        select
+          odID, oID, gdID, odNum, dEvalution, odTime
+        from orderdetail
+        <where>
+            <if test="odid != null">
+                and odID = #{odid}
+            </if>
+            <if test="oid != null">
+                and oID = #{oid}
+            </if>
+            <if test="gdid != null">
+                and gdID = #{gdid}
+            </if>
+            <if test="odnum != null">
+                and odNum = #{odnum}
+            </if>
+            <if test="devalution != null and devalution != ''">
+                and dEvalution = #{devalution}
+            </if>
+            <if test="odtime != null">
+                and odTime = #{odtime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from orderdetail
+        <where>
+            <if test="odid != null">
+                and odID = #{odid}
+            </if>
+            <if test="oid != null">
+                and oID = #{oid}
+            </if>
+            <if test="gdid != null">
+                and gdID = #{gdid}
+            </if>
+            <if test="odnum != null">
+                and odNum = #{odnum}
+            </if>
+            <if test="devalution != null and devalution != ''">
+                and dEvalution = #{devalution}
+            </if>
+            <if test="odtime != null">
+                and odTime = #{odtime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="odid" useGeneratedKeys="true">
+        insert into orderdetail(oID, gdID, odNum, dEvalution, odTime)
+        values (#{oid}, #{gdid}, #{odnum}, #{devalution}, #{odtime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="odid" useGeneratedKeys="true">
+        insert into orderdetail(oID, gdID, odNum, dEvalution, odTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.oid}, #{entity.gdid}, #{entity.odnum}, #{entity.devalution}, #{entity.odtime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="odid" useGeneratedKeys="true">
+        insert into orderdetail(oID, gdID, odNum, dEvalution, odTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.oid}, #{entity.gdid}, #{entity.odnum}, #{entity.devalution}, #{entity.odtime})
+        </foreach>
+        on duplicate key update
+        oID = values(oID),
+        gdID = values(gdID),
+        odNum = values(odNum),
+        dEvalution = values(dEvalution),
+        odTime = values(odTime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update orderdetail
+        <set>
+            <if test="oid != null">
+                oID = #{oid},
+            </if>
+            <if test="gdid != null">
+                gdID = #{gdid},
+            </if>
+            <if test="odnum != null">
+                odNum = #{odnum},
+            </if>
+            <if test="devalution != null and devalution != ''">
+                dEvalution = #{devalution},
+            </if>
+            <if test="odtime != null">
+                odTime = #{odtime},
+            </if>
+        </set>
+        where odID = #{odid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from orderdetail where odID = #{odid}
+    </delete>
+
+</mapper>
+

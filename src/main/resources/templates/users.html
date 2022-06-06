@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/local/css/login.css}" rel="stylesheet">
+    <link  th:href="@{/local/css/page.css}"  rel="stylesheet">
 </head>
 <body>
-$END$
+
+<div id="top" th:include="head.html::top"></div>
+<div id="middle">
+    <div id="left" th:include="left.html::left"></div>
+    <div id="center">
+
+        <div id="msg" th:text="${msg}"></div>
+        <table>
+
+            <tr>
+                <th>会员ID</th>
+                <th>会员名称</th>
+                <th>密码</th>
+                <th>性别</th>
+                <th>城市</th>
+                <th>出生日期</th>
+                <th>电话</th>
+                <th>邮箱</th>
+
+            </tr>
+            <tr th:each="goods:${goodsListPage.list}">
+                <td th:text="${goods.getGdid()}"></td>
+                <td th:text="${goods.getGdname()}"></td>
+                <td th:text="${goods.getGoodstype().getTname()}"></td>
+
+                <td th:text="${goods.getGdprice()}"></td>
+                <td th:text="${goods.getGdcity()}"></td>
+                <td >
+                    <span th:if="${goods.getGdhot()} eq 1">是</span>
+                    <span th:unless="${goods.getGdhot()} eq 1">否</span>
+                </td>
+                <td>
+                    <a th:href="@{/admin/delGoods/} + ${goods.getGdid()}">删除</a>
+                    <a th:href="@{/admin/goods/} + ${goods.getGdid()}">编辑</a>
+                </td>
+
+            </tr>
+
+
+        </table>
+        <div th:include="page.html::mypage"></div>
+
+    </div>
+    <div id="right"></div>
+    <form action="/admin/gotoAddGoods">
+        <input style="float: right" type="submit" value="添加商品">
+    </form>
+</div>
+<div id="bottom" th:include="bottom.html::bottom"></div>
+
+
 </body>
 </html>

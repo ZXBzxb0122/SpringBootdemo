@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/local/css/login.css}" rel="stylesheet">
+    <link  th:href="@{/local/css/page.css}"  rel="stylesheet">
 </head>
 <body>
-$END$
+
+<div id="top" th:include="head.html::top"></div>
+<div id="middle">
+    <div id="left" th:include="left.html::left"></div>
+    <div id="center">
+
+        <div id="msg" th:text="${msg}"></div>
+        <table>
+
+            <tr>
+                <th>订单ID</th>
+                <th>商品ID</th>
+                <th>订单数量</th>
+                <th>评论</th>
+                <th>订单时间</th>
+
+            </tr>
+            <tr th:each="orders:${ordersListPage.list}">
+                <td th:text="${orders.getOdid()}"></td>
+                <td th:text="${orders.getGdid()}"></td>
+                <td th:text="${goods.getOdnum()}"></td>
+                <td th:text="${orders.getDevalution()}"></td>
+
+                <td th:text="${goods.getOdtime()}"></td>
+<!--                <td >-->
+<!--                    <span th:if="${goods.getGdhot()} eq 1">是</span>-->
+<!--                    <span th:unless="${goods.getGdhot()} eq 1">否</span>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <a th:href="@{/admin/delGoods/} + ${goods.getGdid()}">删除</a>-->
+<!--                    <a th:href="@{/admin/goods/} + ${goods.getGdid()}">编辑</a>-->
+<!--                </td>-->
+
+            </tr>
+
+
+        </table>
+        <div th:include="page.html::mypage"></div>
+    </div>
+</div>
+<div id="bottom" th:include="bottom.html::bottom"></div>
+
+
 </body>
 </html>

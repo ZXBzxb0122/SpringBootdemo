@@ -3,6 +3,7 @@ package com.example.Service.impl;
 import com.example.entity.Users;
 import com.example.dao.UsersDao;
 import com.example.Service.UsersService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +28,7 @@ public class UsersServiceImpl implements UsersService {
      * @param uid 主键
      * @return 实例对象
      */
+    @Cacheable(cacheNames = "goods")
     @Override
     public Users queryById(Integer uid) {
         return this.usersDao.queryById(uid);

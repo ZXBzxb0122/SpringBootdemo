@@ -5,6 +5,7 @@ import com.example.Service.UsersService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,6 +25,10 @@ public class UsersController {
     @Resource
     private UsersService usersService;
 
+    @RequestMapping(value = "/users")
+    public String toOrders(Model model){
+        return "users";
+    }
     /**
      * 分页查询
      *

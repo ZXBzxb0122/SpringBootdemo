@@ -2,7 +2,6 @@ package com.example.dao;
 
 import com.example.entity.Goods;
 import com.example.entity.Goodstype;
-import org.apache.catalina.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
@@ -41,5 +40,6 @@ public interface GoodsDao {
             "(tID,gdCode,gdName,gdQuantity,gdCity,gdInfo,gdAddTime)" +
             "VALUES(#{goods.tid},#{goods.gdcode},#{goods.gdname}" +
             ",#{goods.gdquantity},#{goods.gdcity},#{goods.gdinfo},now())")
+    @Options(useGeneratedKeys = true, keyProperty = "goods.gdid")
     int insert(@Param("goods") Goods goods);
 }
